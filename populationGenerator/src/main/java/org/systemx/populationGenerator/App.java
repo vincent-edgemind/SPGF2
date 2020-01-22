@@ -13,7 +13,7 @@ import org.systemx.populationGenerator.supportClasses.ProgressBar;
 
 public class App {
 
-	static String inputPath = "C:\\Users\\User\\Desktop\\input-popgen\\input\\";
+	static String inputPath = "/home/vincent/edgemind/Projects/SYSTEMX-0005-Simulation/SPGF2/SPG/2014/";
 
 	static String pathPums = inputPath + "pums.txt";
 	static String pathConfig = inputPath + "config.xml";
@@ -27,24 +27,14 @@ public class App {
 	static String pathValdiation = inputPath + "output\\marginal_data_generated.csv";
 
 	public static void main(String[] args) {
-		
-		if(args.length == 0) {
-			MainFrame.run();
-		}else {
-			String configPath = args[0];
-			
-			if(configPath.matches("runGUI")){
-				MainFrame.run();
-			}else{
-				Config config;
-				try {
-					config = ConfigGroup.read(configPath);
-					run(config);
+		String configPath = "/home/vincent/edgemind/Projects/SYSTEMX-0005-Simulation/SPGF2/SPG/2014/conf_vincent.xml";
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+		Config config;
+		try {
+			config = ConfigGroup.read(configPath);
+			run(config);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

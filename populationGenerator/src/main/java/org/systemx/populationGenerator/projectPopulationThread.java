@@ -29,11 +29,16 @@ public class projectPopulationThread extends Thread{
 	static void projectPopulation(Config config) {
 		
 		String pathPums = config.getPumsPath();
+		System.out.println("Fichier PUMS => " + pathPums);
 		String pathCantDepReg = config.getCantDepRegPath();
+		System.out.println("Fichier CantDepReg => " + pathCantDepReg);
 		String pathMarginalData = config.getMarginalDataPath();
+		System.out.println("Fichier MarginalData => " + pathMarginalData);
 		String pathRevenue = config.getRevenuePath();
+		System.out.println("Fichier Revenue => " + pathRevenue);
 
 		String pathPumsFil = config.getPumsFilteredPath();
+		System.out.println("Fichier PumsFil => " + pathPumsFil);
 		String pathPUMSOut = config.getOutputPath() + "Synthetic_Population_generated.txt";
 		String pathValdiation = config.getOutputPath() + "marginal_data_generated.csv";
 
@@ -52,12 +57,22 @@ public class projectPopulationThread extends Thread{
 		IrisAndCantonList irisCantList = new IrisAndCantonList();
 
 		try {
+			System.out.println("*******************************");
+			System.out.println("***** Filtre des données ******");
+			System.out.println("*******************************");
 			fileParser.fileFilterDep(pathPums, pathPumsFil, pumsElement.getElement(), depList, "Pums not in dep");
 			pumsElement = new PUMSElement();
 			fileParser.parseFile(pathPumsFil, pumsElement.getElement(), "Pums");
+			// demo extract first element of column 2
+			for(int i = 0; i < 3 ; i++) {
+				System.out.println(pumsElement.getElement().get(2).get(i));
+			}
 			POPIRISElement popirisElement = new POPIRISElement(fileParser.parseFile(pathMarginalData, "Marginal Data"));
 			fileParser.parseFile(pathCantDepReg, depCantonIrisElement.getElement(), "Cant Dep Reg");
 
+			System.out.println("*******************************");
+			System.out.println("***** Conversion en liste *****");
+			System.out.println("*******************************");
 			pumsElement.cleanList();
 			//pumsElement.recycleList();
 			popirisElement.cleanList();

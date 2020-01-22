@@ -37,8 +37,17 @@ public class populationProjector extends Thread{
 				depIndex.put(cantonDepList.get(i).getCode_dept(), i);
 			}
 			
+			// loop over each IRIS
+			//		if IRIS contains population sample
+			//			execution sample expansion
+			// 		else
+			// 			if IRIS marginal population data is not null
+			//				...
+			//			
 			for (int i = 0; i < irisList.size(); i++) {
+				if(i == 14) {
 				if (irisList.get(i).getPopulation().size() > 0) {
+					System.out.println("IRIS => " + i + "(" + irisList.get(i).getIRIS() + ")");
 					irisList.get(i).projectPopulationWithIPONDIWithCO(finesse);
 					
 				} else {
@@ -82,6 +91,7 @@ public class populationProjector extends Thread{
 					}
 				}
 				counter.incCounter();
+			}
 			}
 			
 			irisListOut.addAll(irisList);

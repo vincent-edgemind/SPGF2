@@ -37,6 +37,11 @@ public class Iris {
 		super();
 	}
 
+	/**
+	 * 
+	 * @param Iris
+	 * @param config
+	 */
 	void parseIris(String Iris, Config config) {
 		this.config = config;
 		IRIS = Iris;
@@ -194,6 +199,11 @@ public class Iris {
 		population.addAll(populationTemp);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param finesse		Maximum number of tries
+	 */
 	public void projectPopulationWithIPONDIWithCO(int finesse) {
 		int index = 0;
 		setMenagesList();
@@ -205,15 +215,19 @@ public class Iris {
 		List<Person> populationLeastError = new ArrayList<Person>();
 
 		while (!valid) {
+			System.out.println(counter);
 			List<Person> populationTemp = new ArrayList<Person>();
 			populationTemp.addAll(population);
 
 			int newMenage = 1 + Integer.parseInt(population.get(population.size() - 1).getNUMMI());
 
+			// add persons from randomly selected households
 			while (populationTemp.size() < nbrPopulation) {
 				index = getSampleMenageIndex();
 
 				List<Person> menage = getMenage(index);
+				
+				// add all persons of selected household
 				for (int i = 0; i < menage.size(); i++) {
 					Person newPerson = new Person(menage.get(i));
 					newPerson.setNUMMI(String.valueOf(newMenage));
@@ -224,7 +238,8 @@ public class Iris {
 			double currentError = 0;
 
 			currentError = currentError + getMarginalErrorAgeGroups(populationTemp);
-
+			
+			// keep population with least error
 			if (currentError < leastError) {
 				leastError = currentError;
 				populationLeastError.clear();
@@ -286,6 +301,12 @@ public class Iris {
 		return error/socioProfessionalCategory.size();
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param populationTemp
+	 * @return
+	 */
 	public double getMarginalErrorAgeGroups(List<Person> populationTemp) {
 		Map<Integer, Integer> groupToNumber = new HashMap<Integer, Integer>();
 		for (int i = 0; i < ageGroups.size(); i++) {
@@ -373,6 +394,9 @@ public class Iris {
 		return menage;
 	}
 
+	/**
+	 * Set household list sorted by ipondi
+	 */
 	public void setMenagesList() {
 		int initialPopulation = population.size();
 		String menage = "";
@@ -398,17 +422,23 @@ public class Iris {
 
 	}
 
+	/**
+	 * Get a random index of household
+	 * 
+	 * @return
+	 */
 	public Integer getSampleMenageIndex() {
 		Random random = new Random();
 		double totalP = 0;
 
+		// compute the sum of ipondi for all households in IRIS
 		for (Menage menage : menages) {
 			totalP = totalP + menage.getIpondi();
 		}
-
+		// random new ipondi total
 		double p = random.nextDouble() * totalP;
 		double cumulativeProbability = 0.0;
-
+		// pick household while inferior to ipondi total 
 		for (int i = 0; i < menages.size(); i++) {
 			cumulativeProbability += menages.get(i).getIpondi();
 			if (p <= cumulativeProbability) {

@@ -145,10 +145,13 @@ public class PUMSElement {
 		element.addAll(pumsElement.element);
 	}
 	
+	/**
+	 * Remove persons without household (i.e. Z value instead of a number)
+	 */
 	public void cleanList() {
 		int removed = 0;
 		System.out.println("Cleaning Pums "+ NUMMI.size() +" List:");
-		ProgressBar pb = new ProgressBar(NUMMI.size(),"Cleaning Pums "+ NUMMI.size() +" List:");
+		//ProgressBar pb = new ProgressBar(NUMMI.size(),"Cleaning Pums "+ NUMMI.size() +" List:");
 
 		PUMSElement pumsElementTemp = new PUMSElement();
 
@@ -158,13 +161,14 @@ public class PUMSElement {
 				}else{
 					removed ++;
 				}
-			pb.update(i);
+			//pb.update(i);
 		}
 
+		// remove all elements
 		for (int i = 0; i < element.size(); i++) {
 			element.get(i).clear();
 		}
-
+		// add non removed elements
 		for (int i = 0; i < element.size(); i++) {
 			element.get(i).addAll(pumsElementTemp.getElement().get(i));
 		}

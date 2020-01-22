@@ -46,16 +46,22 @@ public class IrisAndCantonList {
 	// }
 	// }
 
+	/**
+	 * Initiate IRIS list with IRIS id, DEP id, and empty values
+	 * @param popIrisElement
+	 * @param config
+	 */
 	public void initiateIrisList(POPIRISElement popIrisElement, Config config) {
 		System.out.println("Parsing Irises "+popIrisElement.getIris().size()+" To List: ");
-		ProgressBar pb = new ProgressBar(popIrisElement.getIris().size(), "Parsing Irises "+popIrisElement.getIris().size()+" To List: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(popIrisElement.getIris().size(), "Parsing Irises "+popIrisElement.getIris().size()+" To List: ");
+		//pb.setInverse(false);
 
 		for (int i = 0; i < popIrisElement.getIris().size(); i++) {
 			Iris iris = new Iris();
 			iris.parseIris(popIrisElement.getIris().get(i), config);
+			//System.out.println(iris);
 			irisList.add(iris);
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Parsing Irises To List Finished!");
@@ -110,10 +116,15 @@ public class IrisAndCantonList {
 		return true;
 	}
 
+	/**
+	 * Create a list of canton without duplicates
+	 * 
+	 * @param depCanIris
+	 */
 	public void initiatecantonList(DepCantonIrisElement depCanIris) {
 		System.out.println("Parsing Canton "+depCanIris.getElement().get(0).size()+" To List: ");
-		ProgressBar pb = new ProgressBar(depCanIris.getElement().get(0).size(), "Parsing Canton "+depCanIris.getElement().get(0).size()+" To List: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(depCanIris.getElement().get(0).size(), "Parsing Canton "+depCanIris.getElement().get(0).size()+" To List: ");
+		//pb.setInverse(false);
 
 		List<String> cantAdded = new ArrayList<String>();
 		for (int i = 0; i < depCanIris.getElement().get(0).size(); i++) {
@@ -140,17 +151,23 @@ public class IrisAndCantonList {
 				cantonList.get(cantAdded.indexOf(cantCode)).getInsee().add(depCanIris.getInsee().get(i));
 			}
 
-			pb.update(i);
+			//pb.update(i);
 		}
+		System.out.println(cantonList.size());
 		System.out.println();
 		System.out.println("Parsing Canton To List Finished!");
 		System.out.println();
 	}
 
+	/**
+	 * Create a list of eligible departments
+	 * 
+	 * @param Dep
+	 */
 	public void initiatecantonDepList(List<String> Dep) {
 		System.out.println("Parsing CantonDep "+Dep.size()+" To List: ");
-		ProgressBar pb = new ProgressBar(Dep.size(), "Parsing CantonDep "+Dep.size()+" To List: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(Dep.size(), "Parsing CantonDep "+Dep.size()+" To List: ");
+		//pb.setInverse(false);
 
 		for (int i = 0; i < Dep.size(); i++) {
 
@@ -160,7 +177,7 @@ public class IrisAndCantonList {
 
 			cantonDepList.add(cantonDep);
 
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Parsing CantonDep To List Finished!");
@@ -267,32 +284,48 @@ public class IrisAndCantonList {
 	// System.out.println("Parsing Irises To List Finished!");
 	// }
 
+	/**
+	 * Add PUMS persons to IRIS, Cantons and Departments
+	 * 
+	 * @param pums
+	 */
 	public void addPeopleToIrisAndCantons(PUMSElement pums) {
-		System.out.println("Adding People "+pums.getIRIS().size()+" To Iris: ");
-		ProgressBar pb = new ProgressBar(pums.getIRIS().size(), "Adding People "+pums.getIRIS().size()+" To Iris: ");
-		pb.setInverse(false);
+		System.out.println("Adding People "+pums.getIRIS().size()+" To Iris, Canton and Dept: ");
+		//ProgressBar pb = new ProgressBar(pums.getIRIS().size(), "Adding People "+pums.getIRIS().size()+" To Iris: ");
+		//pb.setInverse(false);
 
 		int pumsSize = pums.getIRIS().size();
-		int listSize = irisList.size();
 
 		Map<String, Integer> irisIndex = new HashMap<String, Integer>();
 		Map<Double, Integer> cantonIndex = new HashMap<Double, Integer>();
-
 		Map<String, Integer> cantonDepIndex = new HashMap<String, Integer>();
 
+		// array initialization with list of IRIS, Canton or Department
 		for (int i = 0; i < irisList.size(); i++) {
 			irisIndex.put(irisList.get(i).getIRIS(), i);
 		}
 		for (int i = 1; i < cantonList.size(); i++) {
 			cantonIndex.put(Double.parseDouble(cantonList.get(i).getCode_cant()), i);
 		}
-
 		for (int i = 0; i < cantonDepList.size(); i++) {
 			cantonDepIndex.put(cantonDepList.get(i).getCode_dept(), i);
 		}
 
+		// loop of PUMS sample
 		for (int i = 1; i < pumsSize; i++) {
-
+			// if IRIS is given
+			// 		add person to corresponding IRIS population
+			//   	if Canton is given
+			//			add person to corresponding Canton in populationAll
+			//		add person to corresponding department in populationAll
+			// else
+			// 		if Canton is given
+			//			add person to corresponding Canton in population
+			//		else
+			//			add person to corresponding department in population
+			// 		add person to corresponding Canton in populationAll
+			//		add person to corresponding department in populationAll
+			//
 			if (irisIndex.containsKey(pums.getIRIS().get(i))) {
 				Person person = new Person();
 				person.parseElement(pums, i);
@@ -330,10 +363,10 @@ public class IrisAndCantonList {
 				cantonDepList.get(cantonDepIndex.get(dep)).getPopulationAll().add(person);
 
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
-		System.out.println("Adding People To Iris Finished!");
+		System.out.println("Adding People To Iris, Canton and Dept Finished!");
 		System.out.println();
 	}
 
@@ -375,29 +408,32 @@ public class IrisAndCantonList {
 		System.out.println();
 	}
 
+	/**
+	 * 
+	 */
 	public void sortPopulationByNUMMI() {
 		System.out.println("Sorting Population By NUMMI IRIS: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Sorting Population By NUMMI IRIS: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Sorting Population By NUMMI IRIS: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < irisList.size(); i++) {
 			irisList.get(i).sortPopulationByNUMMI();
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Sorting Population By NUMMI CANT: ");
-		pb = new ProgressBar(cantonList.size(), "Sorting Population By NUMMI CANT: ");
-		pb.setInverse(false);
+		//pb = new ProgressBar(cantonList.size(), "Sorting Population By NUMMI CANT: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < cantonList.size(); i++) {
 			cantonList.get(i).sortPopulationByNUMMI();
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Sorting Population By NUMMI CANTDEP: ");
-		pb = new ProgressBar(cantonDepList.size(),"Sorting Population By NUMMI CANTDEP: ");
-		pb.setInverse(false);
+		//pb = new ProgressBar(cantonDepList.size(),"Sorting Population By NUMMI CANTDEP: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < cantonDepList.size(); i++) {
 			cantonDepList.get(i).sortPopulationByNUMMI();
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Sorting Finished!");
@@ -650,6 +686,13 @@ public class IrisAndCantonList {
 		System.out.println("Projecting population Finished!");
 	}
 
+	/**
+	 * Parallel population synthesizer
+	 * 
+	 * @param threadsNbr		Number of thread
+	 * @param finesse			
+	 * @return
+	 */
 	public String projectPopulationThreaded(int threadsNbr, int finesse) {
 
 		long timeStart = System.currentTimeMillis();
@@ -666,6 +709,7 @@ public class IrisAndCantonList {
 			threadsNbr = 1 + irisListSize / irisPerThread;
 		}
 
+		// split IRIS list on each thread
 		List<List<Iris>> irisListThreads = new ArrayList<List<Iris>>();
 
 		int sizeF = 0;
@@ -681,6 +725,7 @@ public class IrisAndCantonList {
 			irisListThreads.add(tempIris);
 		}
 
+		// population synthesizer for each thread
 		List<populationProjector> threads = new ArrayList<populationProjector>();
 
 		for (int i = 0; i < threadsNbr; i++) {
@@ -700,10 +745,11 @@ public class IrisAndCantonList {
 			thread.setIrisList(irisListThreads.get(i));
 			thread.setCounter(counter);
 			thread.setFinesse(finesse);
-			thread.start();
+			thread.start(); // execute run() method
 			threads.add(thread);
 		}
 
+		// merge threads results
 		for (populationProjector thread : threads) {
 			try {
 				thread.join();
@@ -714,7 +760,7 @@ public class IrisAndCantonList {
 		}
 		
 		irisList.clear();
-
+		// add results to iris list
 		for (int i = 0; i < threads.size(); i++) {
 			irisList.addAll(threads.get(i).getIrisListOut());
 		}
@@ -731,29 +777,40 @@ public class IrisAndCantonList {
 		return (hours + "h" + minutes + "m" + seconds + "s");
 	}
 
+	/**
+	 * Add marginal IRIS population (i.e. total population from IRIS data) to IRIS list
+	 * 
+	 * @param popirisElement
+	 */
 	public void addPopulationSizeMarginalData(POPIRISElement popirisElement) {
 		System.out.println("Adding TotalPopulation "+irisList.size()+" To Iris: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Adding TotalPopulation "+irisList.size()+" To Iris: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Adding TotalPopulation "+irisList.size()+" To Iris: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < irisList.size(); i++) {
 			if (popirisElement.getIris().contains(irisList.get(i).getIRIS())) {
 				int index = popirisElement.getIris().indexOf(irisList.get(i).getIRIS());
 				irisList.get(i).setNbrPopulation(Integer.parseInt(popirisElement.getNbrPopulation().get(index)));
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Adding TotalPopulation To Iris Finished!");
 		System.out.println();
 	}
 
+	/**
+	 * Add population per group of age from marginal data to IRIS list
+	 * 
+	 * @param popirisElement
+	 */
 	public void addAgeGroupsMarginalData(POPIRISElement popirisElement) {
 		System.out.println("Adding AgeGroups "+ irisList.size() +" To Iris: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Adding AgeGroups "+ irisList.size() +" To Iris: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Adding AgeGroups "+ irisList.size() +" To Iris: ");
+		//pb.setInverse(false);
 
 		List<List<String>> ageGroupsTemp = popirisElement.getAgeGroupList();
 		
+		// loop over each IRIS
 		for (int i = 0; i < irisList.size(); i++) {
 
 			if (popirisElement.getIris().contains(irisList.get(i).getIRIS())) {
@@ -769,7 +826,7 @@ public class IrisAndCantonList {
 				}
 			}			
 
-			pb.update(i);
+			//pb.update(i);
 		}
 		
 		System.out.println();
@@ -777,10 +834,15 @@ public class IrisAndCantonList {
 		System.out.println();
 	}
 	
+	/**
+	 * Add number of households from marginal data to IRIS list
+	 * 
+	 * @param popirisElement
+	 */
 	public void addNbrMenagesMarginalData(POPIRISElement popirisElement) {
 		System.out.println("Adding NbrMenages "+irisList.size()+" To Iris: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Adding NbrMenages "+irisList.size()+" To Iris: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Adding NbrMenages "+irisList.size()+" To Iris: ");
+		//pb.setInverse(false);
 
 		List<String> nbrMenages = popirisElement.getNbrMenages();
 
@@ -789,7 +851,7 @@ public class IrisAndCantonList {
 				int index = popirisElement.getIris().indexOf(irisList.get(i).getIRIS());
 				irisList.get(i).setNbrMenages(Integer.parseInt(nbrMenages.get(index)));
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		
 		System.out.println();
@@ -797,10 +859,15 @@ public class IrisAndCantonList {
 		System.out.println();
 	}
 	
+	/**
+	 * Add population per group of gender from marginal data to IRIS list
+	 * 
+	 * @param popirisElement
+	 */
 	public void addNbrHommeFemmesMarginalData(POPIRISElement popirisElement) {
 		System.out.println("Adding NbrHommeFemme "+irisList.size()+" To Iris: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Adding NbrHommeFemme "+irisList.size()+" To Iris: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Adding NbrHommeFemme "+irisList.size()+" To Iris: ");
+		//pb.setInverse(false);
 
 		List<String> nbrHommes = popirisElement.getNbrHommes();
 		List<String> nbrFemmes = popirisElement.getNbrFemmes();
@@ -811,7 +878,7 @@ public class IrisAndCantonList {
 				irisList.get(i).setNbrHommes(Integer.parseInt(nbrHommes.get(index)));
 				irisList.get(i).setNbrFemmes(Integer.parseInt(nbrFemmes.get(index)));
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		
 		System.out.println();
@@ -819,11 +886,15 @@ public class IrisAndCantonList {
 		System.out.println();
 	}
 
-	
+	/**
+	 * Add population per group of SPC (1 to 8) from marginal data to IRIS list
+	 * 
+	 * @param popirisElement
+	 */
 	public void addSocioProfessionalCategoryMarginalData(POPIRISElement popirisElement) {
 		System.out.println("Adding SocioProfessionalCategories "+irisList.size()+" To Iris: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Adding SocioProfessionalCategories "+irisList.size()+" To Iris: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Adding SocioProfessionalCategories "+irisList.size()+" To Iris: ");
+		//pb.setInverse(false);
 
 		List<List<String>> socioProfessionalCategories = popirisElement.getSocioProfessionalCategoryList();
 
@@ -838,7 +909,7 @@ public class IrisAndCantonList {
 					irisList.get(i).getSocioProfessionalCategory().add(socioProfessionalCategory);
 				}
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		
 		System.out.println();

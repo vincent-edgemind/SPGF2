@@ -122,7 +122,7 @@ public class CantonDep {
 		return populationTemp;
 	}
 
-	public List<Person> getProjectedPopulationAllWithCO(int totalPopulation, Iris iris,int finesse) {
+	public List<Person> getProjectedPopulationAllWithCO(int totalPopulation, Iris iris, int finesse) {
 		int index = 0;
 		List<Person> populationStore = new ArrayList<Person>();
 		populationStore.addAll(population);

@@ -79,19 +79,23 @@ public class POPIRISElement {
 		}
 	}
 
+	/**
+	 * Remove data when department id is non numeric (e.g. 2A, 2B for Corsica)
+	 */
 	public void cleanList() {
 		int removed = 0;
 		System.out.println("Cleaning MarginalData "+getElement().get(0).size()+" List:");
-		ProgressBar pb = new ProgressBar(getElement().get(0).size()-1, "Cleaning MarginalData "+getElement().get(0).size()+" List:");
+		//ProgressBar pb = new ProgressBar(getElement().get(0).size()-1, "Cleaning MarginalData "+getElement().get(0).size()+" List:");
 		for (int i = getElement().get(0).size()-1; i >= 0; i--) {
 			for (int j = 1; j < getElement().size(); j++) {
 				if(!isNumeric(getElement().get(j).get(i))){
+					//System.out.println(getElement().get(j).get(i));
 					removeElement(i);
 					removed ++;
 					break;
 				}
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Removed MarginalData elements:" + removed);
@@ -146,16 +150,21 @@ public class POPIRISElement {
 		AgeGroupRanges = ageGroupRanges;
 	}
 
+	/**
+	 * Remove data when not in department list
+	 * 
+	 * @param dep		List of departments
+	 */
 	public void removeNotInDep(List<String> dep) {
 		int removed = 0;
 		System.out.println("Removing MarginalData "+getElement().get(0).size()+" not in dep started:");
-		ProgressBar pb = new ProgressBar(getElement().get(0).size()-1, "Removing MarginalData "+getElement().get(0).size()+" not in dep started:");
+		//ProgressBar pb = new ProgressBar(getElement().get(0).size()-1, "Removing MarginalData "+getElement().get(0).size()+" not in dep started:");
 		for (int i = getElement().get(0).size() - 1; i >= 0; i--) {
 				if(!dep.contains(this.dep.get(i))){
 					removeElement(i);
 					removed ++;
 				}
-				pb.update(i);
+				//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Removed MarginalData elements:"+ removed);
