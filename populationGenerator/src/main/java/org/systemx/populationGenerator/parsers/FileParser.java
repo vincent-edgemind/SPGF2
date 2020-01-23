@@ -24,6 +24,14 @@ import org.systemx.populationGenerator.supportClasses.ProgressBar;
 
 public class FileParser {
 
+	/**
+	 * Parse input file and fill a list element.
+	 * 
+	 * @param path				Input file
+	 * @param elementName
+	 * @return element
+	 * @throws IOException
+	 */
 	public void parseFile(String path, List<List<String>> element, String elementName) throws IOException {
 		File file = new File(path);
 		List<String> lines = readFile(file);
@@ -31,14 +39,13 @@ public class FileParser {
 
 		List<String> firstLine = Arrays.asList(lines.get(0).split(";"));
 
-
 		int number = lines.size();
 		if (number > lines.size()) {
 			number = lines.size();
 		}
 
-		ProgressBar progressBar = new ProgressBar(lines.size(), "Parsing "+elementName);
-		progressBar.setInverse(false);
+		//ProgressBar progressBar = new ProgressBar(lines.size(), "Parsing "+elementName);
+		//progressBar.setInverse(false);
 
 		Map<Integer, Integer> attributeIndexs = new HashMap<Integer, Integer>();
 
@@ -47,24 +54,25 @@ public class FileParser {
 		}
 
 		for (int i = 1; i < number; i++) {
+			//System.out.println("i => " + i);
 			List<String> splitList = Arrays.asList(lines.get(i).split(";"));
 			int attributeIndex;
 
 			for (int j = 0; j < splitList.size(); j++) {
+				//System.out.println("j => " + j);
 				attributeIndex = attributeIndexs.get(j);
+				//System.out.println(attributeIndexs);
 				if (attributeIndex != -1) {
 					element.get(attributeIndex).add(splitList.get(j));
 				}
 			}
-			
-			progressBar.update(i);
+			//progressBar.update(i);
 		}
 		System.out.println();
 		System.out.println("Parsing "+elementName+" done!");
 		System.out.println();
 	}
 
-	
 	public List<List<String>> parseFile(String path, String elementName) throws IOException {
 		File file = new File(path);
 		List<String> lines = readFile(file);
@@ -85,8 +93,8 @@ public class FileParser {
 			number = lines.size();
 		}
 
-		ProgressBar progressBar = new ProgressBar(lines.size(), "Parsing "+elementName);
-		progressBar.setInverse(false);
+		//ProgressBar progressBar = new ProgressBar(lines.size(), "Parsing "+elementName);
+		//progressBar.setInverse(false);
 
 		Map<Integer, Integer> attributeIndexs = new HashMap<Integer, Integer>();
 
@@ -105,7 +113,7 @@ public class FileParser {
 				}
 			}
 			
-			progressBar.update(i);
+			//progressBar.update(i);
 		}
 		
 		System.out.println();
@@ -115,7 +123,23 @@ public class FileParser {
 		return element;
 	}
 	
-	public void fileFilterDep(String pathIn, String pathOut, List<List<String>> element, List<String> dep, String elementName)
+	/**
+	 * Filter PUMS input file from department of residence.
+	 * Generate a new file.
+	 * @param pathIn		Input file
+	 * @param pathOut		Output file
+	 * @param element
+	 * @param dep			List of eligible departments
+	 * @param elementName
+	 * @throws IOException
+	 */
+	public void fileFilterDep(
+			String pathIn,
+			String pathOut,
+			List<List<String>> element,
+			List<String> dep,
+			String elementName
+		)
 			throws IOException {
 		File file = new File(pathIn);
 		List<String> lines = readFile(file);
@@ -124,28 +148,26 @@ public class FileParser {
 		File fileOut = new File(pathOut);
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileOut, false)));
 		String stdout = "";
-
-		List<String> firstLine = Arrays.asList(lines.get(0).split(";"));
+		List<String> firstLine = Arrays.asList(lines.get(0).split(";")); // read titles
 
 		int number = lines.size();
 		if (number > lines.size()) {
 			number = lines.size();
 		}
-		ProgressBar progressBar = new ProgressBar(lines.size(),"Filtering "+elementName);
-		progressBar.setInverse(false);
 
 		Map<Integer, Integer> attributeIndexs = new HashMap<Integer, Integer>();
 
 		int depIndex = 26;
-
-		for (int i = 0; i < firstLine.size(); i++) {
+		
+		// search for column index of departments
+		for (int i = 0; i < firstLine.size(); i++) { // loop on columns
 			attributeIndexs.put(i, attributeIndex(firstLine.get(i), element));
-
 			if (firstLine.get(i).matches("DEPT")) {
 				depIndex = i;
 			}
 		}
 
+		// print first line in file
 		int attributeIndexFirstLine;
 		List<String> splitListFirstLine = Arrays.asList(lines.get(0).split(";"));
 		String stdoutFirstLine = "";
@@ -157,7 +179,10 @@ public class FileParser {
 			}
 		}
 		out.println(stdoutFirstLine);
-
+		
+		//ProgressBar progressBar = new ProgressBar(lines.size(),"Filtering "+elementName);
+		//progressBar.setInverse(false);
+		// loop over each line, except title (first line)
 		for (int i = 1; i < number; i++) {
 			List<String> splitList = Arrays.asList(lines.get(i).split(";"));
 			int attributeIndex;
@@ -172,13 +197,12 @@ public class FileParser {
 						stdout = stdout + ";";
 					}
 				}
-
 				out.println(stdout);
 			} else {
-				//System.out.println("DEPT OUT " + splitList.get(depIndex));
+				System.out.println("DEPT OUT " + splitList.get(depIndex));
 			}
 
-			progressBar.update(i);
+			//progressBar.update(i);
 		}
 
 		out.close();
@@ -275,8 +299,8 @@ public class FileParser {
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
 		String s = "";
 		System.out.println("Writing "+elementName);
-		ProgressBar progressBar = new ProgressBar(element.get(0).size(),"Writing "+elementName);
-		progressBar.setInverse(false);
+		//ProgressBar progressBar = new ProgressBar(element.get(0).size(),"Writing "+elementName);
+		//progressBar.setInverse(false);
 
 		for (int i = 0; i < element.get(0).size(); i++) {
 			s = "";
@@ -287,7 +311,7 @@ public class FileParser {
 				}
 			}
 			out.println(s);
-			progressBar.update(i);
+			//progressBar.update(i);
 		}
 		System.out.println();
 		System.out.println("Writing "+elementName+" done!");

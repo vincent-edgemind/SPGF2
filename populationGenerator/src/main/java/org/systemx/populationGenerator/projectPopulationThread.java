@@ -107,7 +107,7 @@ public class projectPopulationThread extends Thread{
 			POPIRISElementValidation POPIRISElementValidation = new POPIRISElementValidation(popirisElement, config);
 
 			System.out.println("Preparing Write Elements:");
-			ProgressBar pb = new ProgressBar(irisCantList.getIrisList().size(), "Preparing Write Elements");
+			//ProgressBar pb = new ProgressBar(irisCantList.getIrisList().size(), "Preparing Write Elements");
 
 			PUMSElement pumsWrite = new PUMSElement();
 			for (int i = 0; i < irisCantList.getIrisList().size(); i++) {
@@ -115,7 +115,7 @@ public class projectPopulationThread extends Thread{
 					pumsWrite.addOneElement(irisCantList.getIrisList().get(i).getPopulation().get(j).serialisePerson());
 				}
 				POPIRISElementValidation.addIris(irisCantList.getIrisList().get(i));
-				pb.update(i);
+				//pb.update(i);
 			}
 
 			POPIRISElementValidation.finaliseErrors(runTime);

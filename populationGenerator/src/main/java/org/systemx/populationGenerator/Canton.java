@@ -160,6 +160,14 @@ public class Canton {
 		return populationTemp;
 	}
 
+	/**
+	 * Get IRIS random population by using canton population
+	 * 
+	 * @param totalPopulation		IRIS population
+	 * @param iris					IRIS object
+	 * @param finesse				Number of tries
+	 * @return  population
+	 */
 	public List<Person> getProjectedPopulationWithCO(int totalPopulation, Iris iris, int finesse) {
 		int index = 0;
 
@@ -218,6 +226,9 @@ public class Canton {
 		return menage;
 	}
 
+	/**
+	 * Set household list sorted by ipondi
+	 */
 	public void setMenagesList() {
 		int initialPopulation = population.size();
 		String menage = "";
@@ -248,6 +259,11 @@ public class Canton {
 
 	}
 
+	/**
+	 * Get a random index of household
+	 * 
+	 * @return
+	 */
 	public Integer getSampleMenageIndex() {
 		Random random = new Random();
 		double totalP = 0;
@@ -300,6 +316,14 @@ public class Canton {
 		return populationTemp;
 	}
 
+	/**
+	 * Get IRIS random population using whole population as initial set
+	 * 
+	 * @param totalPopulation
+	 * @param iris
+	 * @param finesse			Number of tries
+	 * @return random population
+	 */
 	public List<Person> getProjectedPopulationAllWithCO(int totalPopulation, Iris iris,int finesse) {
 		int index = 0;
 		List<Person> populationStore = new ArrayList<Person>();
@@ -385,6 +409,9 @@ public class Canton {
 		return menagesAll.get(random.nextInt(menagesAll.size() - 1)).getIndex();
 	}
 
+	/**
+	 * Set household list sorted by ipondi from all household list
+	 */
 	public void setMenagesAllList() {
 		int initialPopulation = populationAll.size();
 		String menage = "";

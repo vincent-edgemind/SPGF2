@@ -70,8 +70,8 @@ public class IrisAndCantonList {
 	
 	public void initiateRevenueElement(REVENUEElement revenueElement) {
 		System.out.println("Parsing Revenue "+irisList.size()+" To List: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Parsing Revenue "+irisList.size()+" To List: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Parsing Revenue "+irisList.size()+" To List: ");
+		//pb.setInverse(false);
 
 		Map<String, Integer> irisIndex = new HashMap<String, Integer>();
 
@@ -100,7 +100,7 @@ public class IrisAndCantonList {
 			}
 			
 			irisList.get(i).parseRevenue(decList);
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Parsing Revenue To List Finished!");
@@ -397,11 +397,11 @@ public class IrisAndCantonList {
 
 	public void sortPopulationByNBPI() {
 		System.out.println("Sorting Population "+irisList.size()+" By NBPI: ");
-		ProgressBar pb = new ProgressBar(irisList.size(), "Sorting Population "+irisList.size()+" By NBPI: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(), "Sorting Population "+irisList.size()+" By NBPI: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < irisList.size(); i++) {
 			irisList.get(i).sortPopulationByNBPI();
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Sorting Finished!");
@@ -440,13 +440,16 @@ public class IrisAndCantonList {
 		System.out.println();
 	}
 
+	/**
+	 * Assign random revenues
+	 */
 	public void assignRevenue() {
 		System.out.println("Assigning Revenue "+irisList.size()+" To Population: ");
-		ProgressBar pb = new ProgressBar(irisList.size(),"Assigning Revenue "+irisList.size()+" To Population: ");
-		pb.setInverse(false);
+		//ProgressBar pb = new ProgressBar(irisList.size(),"Assigning Revenue "+irisList.size()+" To Population: ");
+		//pb.setInverse(false);
 		for (int i = 0; i < irisList.size(); i++) {
 			irisList.get(i).assignRevenue();
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Assigning Revenue To Population Finished!");
@@ -687,11 +690,13 @@ public class IrisAndCantonList {
 	}
 
 	/**
-	 * Parallel population synthesizer
+	 * Parallel population synthesizer using random simulation method.
+	 * Get best random try during n iteration (finesse).
+	 * Best is defined by marginal group of age volumes.
 	 * 
 	 * @param threadsNbr		Number of thread
-	 * @param finesse			
-	 * @return
+	 * @param finesse			Number of random tries	
+	 * @return population
 	 */
 	public String projectPopulationThreaded(int threadsNbr, int finesse) {
 

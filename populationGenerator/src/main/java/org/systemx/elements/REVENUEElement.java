@@ -78,7 +78,7 @@ public class REVENUEElement {
 	public void cleanList() {
 		int removed = 0;
 		System.out.println("Cleaning Revenue "+ element.get(0).size() +" List:");
-		ProgressBar pb = new ProgressBar(getElement().get(0).size() - 1, "Cleaning Revenue "+ element.get(0).size() +" List:");
+		//ProgressBar pb = new ProgressBar(getElement().get(0).size() - 1, "Cleaning Revenue "+ element.get(0).size() +" List:");
 		for (int i = getElement().get(0).size() - 1; i >= 0; i--) {
 			for (int j = 1; j < getElement().size(); j++) {
 				if (!isNumeric(getElement().get(j).get(i))) {
@@ -87,7 +87,7 @@ public class REVENUEElement {
 					break;
 				}
 			}
-			pb.update(i);
+			//pb.update(i);
 		}
 		System.out.println();
 		System.out.println("Removed elements:" + removed);

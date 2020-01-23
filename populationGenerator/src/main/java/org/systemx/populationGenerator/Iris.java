@@ -200,7 +200,7 @@ public class Iris {
 	}
 
 	/**
-	 * 
+	 * Get IRIS random population
 	 * 
 	 * @param finesse		Maximum number of tries
 	 */
@@ -215,7 +215,6 @@ public class Iris {
 		List<Person> populationLeastError = new ArrayList<Person>();
 
 		while (!valid) {
-			System.out.println(counter);
 			List<Person> populationTemp = new ArrayList<Person>();
 			populationTemp.addAll(population);
 
@@ -247,10 +246,11 @@ public class Iris {
 
 			}
 			counter++;
+			// stop if error is null
 			if (leastError == 0) {
 				valid = true;
 			}
-
+			// stop if number of iterations is reached
 			if (counter > finesse) {
 				valid = true;
 			}
@@ -302,7 +302,7 @@ public class Iris {
 	}
 
 	/**
-	 * 
+	 * Get error compared to marginal data on age groups
 	 * 
 	 * @param populationTemp
 	 * @return
@@ -448,6 +448,9 @@ public class Iris {
 		return menages.get(random.nextInt(menages.size() - 1)).getIndex();
 	}
 
+	/**
+	 * Assign random revenue using revenue distribution (deciles from input file)
+	 */
 	public void assignRevenue() {
 		double totalPopulation = population.size();
 		for (int i = 0; i < population.size(); i++) {

@@ -23,6 +23,9 @@ public class Decil {
 		this.revenueEnd = revenueEnd;
 	}
 
+	/*
+	 * Give a random revenue between decile start and end
+	 */
 	public int getRandomRevenue(){
 		return randInt(revenueStart, revenueEnd);
 	}

@@ -39,23 +39,19 @@ public class populationProjector extends Thread{
 			
 			// loop over each IRIS
 			//		if IRIS contains population sample
-			//			execution sample expansion
+			//			randomly select households and their persons under the constraints of marginal group of age volumes
 			// 		else
 			// 			if IRIS marginal population data is not null
 			//				...
-			//			
+			//
 			for (int i = 0; i < irisList.size(); i++) {
-				if(i == 14) {
+				if(i > -1) {
 				if (irisList.get(i).getPopulation().size() > 0) {
-					System.out.println("IRIS => " + i + "(" + irisList.get(i).getIRIS() + ")");
 					irisList.get(i).projectPopulationWithIPONDIWithCO(finesse);
-					
 				} else {
 					if (irisList.get(i).getNbrPopulation() > 0) {
-						
 						String codeInsee = irisList.get(i).getIRIS().substring(0, 5);
 						String codeDep = irisList.get(i).getIRIS().substring(0, 2);
-
 						if (inseeIndex.containsKey(codeInsee)
 								&& cantonList.get(inseeIndex.get(codeInsee)).getPopulation().size() > 0) {
 
@@ -64,23 +60,24 @@ public class populationProjector extends Thread{
 									.getProjectedPopulationWithCO(irisList.get(i).getNbrPopulation(), irisList.get(i), finesse);
 							irisList.get(i).setPopulation(populationCan);
 						} else {
-
 							if (cantonDepList.get(depIndex.get(codeDep)).getPopulation().size() <= 0) {
-
-								if(inseeIndex.containsKey(codeInsee) && cantonList.get(inseeIndex.get(codeInsee)).getPopulation().size() > 0){
+								if(inseeIndex.containsKey(codeInsee)
+										&& cantonList.get(inseeIndex.get(codeInsee)).getPopulation().size() > 0){
 									List<Person> populationCan = new ArrayList<Person>();
 									populationCan = cantonList.get(inseeIndex.get(codeInsee))
-											.getProjectedPopulationAllWithCO(irisList.get(i).getNbrPopulation(),irisList.get(i), finesse);
+											.getProjectedPopulationAllWithCO(
+													irisList.get(i).getNbrPopulation(),
+													irisList.get(i), finesse);
 									irisList.get(i).setPopulation(populationCan);
 									
 								}else{
 									List<Person> populationCan = new ArrayList<Person>();
 									populationCan = cantonDepList.get(depIndex.get(codeDep))
-											.getProjectedPopulationAllWithCO(irisList.get(i).getNbrPopulation(), irisList.get(i), finesse);
+											.getProjectedPopulationAllWithCO(
+													irisList.get(i).getNbrPopulation(),
+													irisList.get(i), finesse);
 									irisList.get(i).setPopulation(populationCan);
 								}
-								
-
 							} else {
 								List<Person> populationCan = new ArrayList<Person>();
 								populationCan = cantonDepList.get(depIndex.get(codeDep))

@@ -13,21 +13,21 @@ import org.systemx.populationGenerator.supportClasses.ProgressBar;
 
 public class App {
 
-	static String inputPath = "/home/vincent/edgemind/Projects/SYSTEMX-0005-Simulation/SPGF2/SPG/2014/";
+	static String inputPath = "";
 
-	static String pathPums = inputPath + "pums.txt";
-	static String pathConfig = inputPath + "config.xml";
-	static String pathCantDepReg = inputPath + "cant_dep_reg.csv";
-	static String pathMarginalData = inputPath + "marginal_data_iris.csv";
-	static String pathRevenue = inputPath + "revenue_iris.csv";
+	static String pathPums = inputPath + "";
+	static String pathConfig = inputPath + "";
+	static String pathCantDepReg = inputPath + "";
+	static String pathMarginalData = inputPath + "";
+	static String pathRevenue = inputPath + "";
 
-	static String pathPumsFil = inputPath + "pums_filtered.txt";
+	static String pathPumsFil = inputPath + "";
 
 	static String pathPUMSOut = inputPath + "output\\SynPop_generated.txt";
 	static String pathValdiation = inputPath + "output\\marginal_data_generated.csv";
 
 	public static void main(String[] args) {
-		String configPath = "/home/vincent/edgemind/Projects/SYSTEMX-0005-Simulation/SPGF2/SPG/2014/conf_vincent.xml";
+		String configPath = "../SPG/2014/conf_vincent.xml";
 
 		Config config;
 		try {

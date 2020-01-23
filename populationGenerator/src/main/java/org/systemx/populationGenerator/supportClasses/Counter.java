@@ -28,15 +28,15 @@ public final class Counter {
 		this.prefix = prefix;
 		this.suffix = suffix;
 		
-		if(pbSet){
-			jProgressBar.setMaximum(total);
-			jProgressBar.setMinimum(0);
-			jPanel.repaint();
-		}
-		if(lblSet){
-			jLabel.setText(prefix);
-			jPanel.repaint();
-		}
+//		if(pbSet){
+//			jProgressBar.setMaximum(total);
+//			jProgressBar.setMinimum(0);
+//			jPanel.repaint();
+//		}
+//		if(lblSet){
+//			jLabel.setText(prefix);
+//			jPanel.repaint();
+//		}
 	}
 
 	public void incCounter() {
@@ -50,8 +50,8 @@ public final class Counter {
 		
 		printCounterByMinute();
 		
-		jProgressBar.setValue(Integer.parseInt(this.counter.toString()));
-		jPanel.repaint();
+		//jProgressBar.setValue(Integer.parseInt(this.counter.toString()));
+		//jPanel.repaint();
 	}
 	
 	
