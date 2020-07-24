@@ -335,10 +335,6 @@ public class CantonDep {
 		for (int i = 0; i < menages.size(); i++) {
 			cumulativeProbability += menages.get(i).getIpondi();
 			if (p <= cumulativeProbability) {
-				// System.out.println("----------------------------------");
-				// System.out.println("i:" + i +"/" + menages.size());
-				// System.out.println(menages.get(i).getIpondi()+"/"
-				// +cumulativeProbability+"/" +totalP);
 				return menages.get(i).getIndex();
 			}
 		}
